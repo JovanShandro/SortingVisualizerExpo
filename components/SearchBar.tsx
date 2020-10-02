@@ -15,7 +15,11 @@ const SearchBar: React.FC<Props> = ({ setAlgorithms }) => {
 
   const handleChangeText = (text: string) => {
     setSearchedString(text);
-    setAlgorithms(allAlgorithms.filter(alg => alg.includes(searchedString)));
+    setAlgorithms(
+      text === ""
+        ? allAlgorithms
+        : allAlgorithms.filter(alg => alg.includes(text))
+    );
   };
 
   return (
