@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+import FlipableCardList from "./components/FlipableCardList";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import { allAlgorithms } from "./constants";
@@ -22,8 +23,8 @@ const darkTheme: Theme = {
 
 export default function App() {
   const [isLightSchemaSet, setIsLightSchemaSet] = useState(false);
-  const theme = isLightSchemaSet ? lightTheme : darkTheme;
   const [algorithms, setAlgorithms] = useState(allAlgorithms);
+  const theme = isLightSchemaSet ? lightTheme : darkTheme;
 
   return (
     <ThemeContext.Provider value={{ theme }}>
@@ -36,6 +37,7 @@ export default function App() {
       >
         <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
           <SearchBar setAlgorithms={setAlgorithms} />
+          <FlipableCardList algorithms={algorithms} />
         </View>
       </TouchableWithoutFeedback>
     </ThemeContext.Provider>

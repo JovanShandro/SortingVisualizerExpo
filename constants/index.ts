@@ -22,7 +22,7 @@ export type AlgorithmNames =
   | "counting"
   | "radix";
 
-export const algorithms: { [key in AlgorithmNames]: Algorithm } = {
+export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
   merge: {
     title: "Merge Sort",
     info: {
@@ -107,4 +107,4 @@ export const algorithms: { [key in AlgorithmNames]: Algorithm } = {
   }
 };
 
-export const allAlgorithms = Object.keys(algorithms);
+export const allAlgorithms = Object.keys(algorithmsData);
