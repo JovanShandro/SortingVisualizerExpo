@@ -8,6 +8,7 @@ import {
   View,
   ViewStyle
 } from "react-native";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useThemeContext } from "../lib/themeContext";
 
 interface Props {
@@ -52,8 +53,7 @@ const styles = StyleSheet.create<Style>({
     alignItems: "center",
     justifyContent: "space-around",
     paddingTop: Constants.statusBarHeight,
-    height: "12%",
-    minHeight: 80
+    height: hp("12%")
   },
   header: {
     fontSize: 24,
