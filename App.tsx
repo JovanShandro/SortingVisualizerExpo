@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import { allAlgorithms } from "./constants";
@@ -29,9 +29,15 @@ export default function App() {
     <ThemeContext.Provider value={{ theme }}>
       <StatusBar style="light" />
       <Header setIsLightSchemaSet={setIsLightSchemaSet}></Header>
-      <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
-        <SearchBar setAlgorithms={setAlgorithms} />
-      </View>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+      >
+        <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
+          <SearchBar setAlgorithms={setAlgorithms} />
+        </View>
+      </TouchableWithoutFeedback>
     </ThemeContext.Provider>
   );
 }
