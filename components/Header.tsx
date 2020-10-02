@@ -52,7 +52,7 @@ const styles = StyleSheet.create<Style>({
     alignItems: "center",
     justifyContent: "space-around",
     paddingTop: Constants.statusBarHeight,
-    height: "10%"
+    height: "12%"
   },
   header: {
     fontSize: 24,
