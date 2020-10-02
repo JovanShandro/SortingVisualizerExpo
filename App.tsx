@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Header from "./components/Header";
+import SearchBar from "./components/SearchBar";
 import { ThemeContext, Theme } from "./lib/themeContext";
 import { StatusBar } from "expo-status-bar";
+import { View } from "react-native";
 
 const lightTheme: Theme = {
   headerBackground: "#285D61",
@@ -19,13 +21,15 @@ const darkTheme: Theme = {
 
 export default function App() {
   const [isLightSchemaSet, setIsLightSchemaSet] = useState(false);
+  const theme = isLightSchemaSet ? lightTheme : darkTheme;
 
   return (
-    <ThemeContext.Provider
-      value={{ theme: isLightSchemaSet ? lightTheme : darkTheme }}
-    >
+    <ThemeContext.Provider value={{ theme }}>
       <StatusBar style="light" />
       <Header setIsLightSchemaSet={setIsLightSchemaSet}></Header>
+      <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
+        <SearchBar />
+      </View>
     </ThemeContext.Provider>
   );
 }
