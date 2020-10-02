@@ -26,7 +26,10 @@ const SearchBar: React.FC<Props> = ({ setAlgorithms }) => {
         name="search"
       />
       <TextInput
-        style={[styles.input, { borderColor: theme?.searchBar }]}
+        style={[
+          styles.input,
+          { borderColor: theme?.searchBar, color: theme?.searchBar }
+        ]}
         value={searchedString}
         onChangeText={handleChangeText}
       />
@@ -49,7 +52,8 @@ const styles = StyleSheet.create<Style>({
   input: {
     borderRadius: 20,
     borderWidth: 1,
-    width: "80%"
+    width: "80%",
+    paddingLeft: 15
   }
 });
 
