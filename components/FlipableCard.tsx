@@ -22,10 +22,10 @@ const FlipableCard: React.FC<Props> = ({ item }) => {
         <InfoCard
           style={[styles.card, styles.infoCard]}
           onPress={() => card.flip()}
-          item={item}
+          info={item.info}
         />
         <VisualizationCard
-          style={[styles.card, styles.infoCard]}
+          style={[styles.card, styles.visualizationCard]}
           onPress={() => card.flip()}
           item={item}
         />
