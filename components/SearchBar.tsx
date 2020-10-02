@@ -2,13 +2,22 @@ import React, { useState } from "react";
 import { View, StyleSheet, ViewStyle, TextInput } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useThemeContext } from "../lib/themeContext";
+import { allAlgorithms } from "../constants";
 
-interface Props {}
+interface Props {
+  setAlgorithms(algs: string[]): void;
+}
 
-const SearchBar: React.FC<Props> = ({}) => {
+const SearchBar: React.FC<Props> = ({ setAlgorithms }) => {
   const { theme } = useThemeContext();
 
   const [searchedString, setSearchedString] = useState("");
+
+  const handleChangeText = (text: string) => {
+    setSearchedString(text);
+    setAlgorithms(allAlgorithms.filter(alg => alg.includes(searchedString)));
+  };
+
   return (
     <View style={styles.container}>
       <FontAwesome
@@ -19,7 +28,7 @@ const SearchBar: React.FC<Props> = ({}) => {
       <TextInput
         style={[styles.input, { borderColor: theme?.searchBar }]}
         value={searchedString}
-        onChangeText={text => setSearchedString(text)}
+        onChangeText={handleChangeText}
       />
     </View>
   );

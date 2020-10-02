@@ -1,9 +1,10 @@
+import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
+import { View } from "react-native";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
-import { ThemeContext, Theme } from "./lib/themeContext";
-import { StatusBar } from "expo-status-bar";
-import { View } from "react-native";
+import { allAlgorithms } from "./constants";
+import { Theme, ThemeContext } from "./lib/themeContext";
 
 const lightTheme: Theme = {
   headerBackground: "#285D61",
@@ -22,13 +23,14 @@ const darkTheme: Theme = {
 export default function App() {
   const [isLightSchemaSet, setIsLightSchemaSet] = useState(false);
   const theme = isLightSchemaSet ? lightTheme : darkTheme;
+  const [algorithms, setAlgorithms] = useState(allAlgorithms);
 
   return (
     <ThemeContext.Provider value={{ theme }}>
       <StatusBar style="light" />
       <Header setIsLightSchemaSet={setIsLightSchemaSet}></Header>
       <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
-        <SearchBar />
+        <SearchBar setAlgorithms={setAlgorithms} />
       </View>
     </ThemeContext.Provider>
   );

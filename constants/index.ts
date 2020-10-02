@@ -106,3 +106,5 @@ export const algorithms: { [key in AlgorithmNames]: Algorithm } = {
     }
   }
 };
+
+export const allAlgorithms = Object.keys(algorithms);
