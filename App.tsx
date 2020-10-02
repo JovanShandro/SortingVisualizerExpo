@@ -6,13 +6,15 @@ import { StatusBar } from "expo-status-bar";
 const lightTheme: Theme = {
   headerBackground: "#285D61",
   headerColor: "white",
-  searchBar: "black"
+  searchBar: "black",
+  backgroundColor: "white"
 };
 
 const darkTheme: Theme = {
   headerBackground: "#0E292B",
   headerColor: "#e0e0e0",
-  searchBar: "#d0d0d0"
+  searchBar: "#d0d0d0",
+  backgroundColor: "#223b3d"
 };
 
 export default function App() {
