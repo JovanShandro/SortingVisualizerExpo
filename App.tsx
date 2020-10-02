@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "./components/Header";
 import { ThemeContext, Theme } from "./lib/themeContext";
+import { StatusBar } from "expo-status-bar";
 
 const lightTheme: Theme = {
   headerBackground: "#285D61",
@@ -21,6 +22,7 @@ export default function App() {
     <ThemeContext.Provider
       value={{ theme: isLightSchemaSet ? lightTheme : darkTheme }}
     >
+      <StatusBar style="light" />
       <Header setIsLightSchemaSet={setIsLightSchemaSet}></Header>
     </ThemeContext.Provider>
   );
