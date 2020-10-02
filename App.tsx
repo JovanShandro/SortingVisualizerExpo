@@ -1,21 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import { ThemeContext, Theme } from "./lib/themeContext";
+
+const lightTheme: Theme = {
+  headerBackground: "#285D61",
+  headerColor: "white",
+  searchBar: "black"
+};
+
+const darkTheme: Theme = {
+  headerBackground: "#0E292B",
+  headerColor: "#e0e0e0",
+  searchBar: "#d0d0d0"
+};
 
 export default function App() {
+  const [isLightSchemaSet, setIsLightSchemaSet] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeContext.Provider
+      value={{ theme: isLightSchemaSet ? lightTheme : darkTheme }}
+    >
+      <Header setIsLightSchemaSet={setIsLightSchemaSet}></Header>
+    </ThemeContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
