@@ -32,7 +32,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
   const animate = (animations: number[][]) => {
     animations.forEach((value, ind) => {
       const m = ind % 3;
-      if (m === 0) {
+      if (m === 0 && value[0] !== value[1]) {
         setTimeout(() => {
           setParameters((prev: any) => {
             const copy = prev.slice();
@@ -41,7 +41,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
             return copy;
           });
         }, ind * 15);
-      } else if (m == 1) {
+      } else if (m == 1 && value[0] !== value[1]) {
         setTimeout(() => {
           setParameters((prev: any) => {
             const copy = prev.slice();
@@ -51,15 +51,17 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
           });
         }, ind * 15);
       } else {
-        setTimeout(() => {
-          setParameters((prev: any) => {
-            const copy = prev.slice();
-            const tmp = copy[value[0]].height;
-            copy[value[0]].height = copy[value[1]].height;
-            copy[value[1]].height = tmp;
-            return copy;
-          });
-        }, ind * 15);
+        if (value[0] !== value[1]) {
+          setTimeout(() => {
+            setParameters((prev: any) => {
+              const copy = prev.slice();
+              const tmp = copy[value[0]].height;
+              copy[value[0]].height = copy[value[1]].height;
+              copy[value[1]].height = tmp;
+              return copy;
+            });
+          }, ind * 15);
+        }
       }
     });
   };
