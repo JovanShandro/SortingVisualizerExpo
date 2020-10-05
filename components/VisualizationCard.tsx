@@ -1,6 +1,6 @@
 import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
   ViewStyle
 } from "react-native";
 import { Algorithm, ColumnBlueColors, ColumnRedColors } from "../constants";
+import sorting_algorithms from "../lib/algorithms";
 import { generateRandomArray } from "../lib/utils";
 
 interface Props {
@@ -19,20 +20,16 @@ interface Props {
 }
 
 const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
-  const [array, setArray] = useState(generateRandomArray());
-  const animations = [
-    [0, 2],
-    [0, 2],
-    [0, 52]
-  ];
+  const array = useRef(generateRandomArray());
+
   const [parameters, setParameters] = useState<any>(
-    array.map(value => ({
+    array.current.map(value => ({
       colors: ColumnBlueColors,
       height: value
     }))
   );
 
-  const handlePlay = () => {
+  const animate = (animations: number[][]) => {
     animations.forEach((value, ind) => {
       const m = ind % 3;
       if (m === 0) {
@@ -43,7 +40,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
             copy[value[1]].colors = ColumnRedColors;
             return copy;
           });
-        }, ind * 20);
+        }, ind * 15);
       } else if (m == 1) {
         setTimeout(() => {
           setParameters((prev: any) => {
@@ -52,22 +49,38 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
             copy[value[1]].colors = ColumnBlueColors;
             return copy;
           });
-        }, ind * 40);
+        }, ind * 15);
       } else {
         setTimeout(() => {
           setParameters((prev: any) => {
             const copy = prev.slice();
-            copy[value[0]].height = value[1];
+            const tmp = copy[value[0]].height;
+            copy[value[0]].height = copy[value[1]].height;
+            copy[value[1]].height = tmp;
             return copy;
           });
-        }, ind * 60);
+        }, ind * 15);
       }
     });
   };
 
+  const handlePlay = () => {
+    const animations: number[][] = [];
+
+    // Sort array
+    const sort = sorting_algorithms[item.name];
+    sort(array.current, animations);
+
+    // Animate sorting
+    animate(animations);
+  };
+
   const handleShuffle = () => {
+    // Create new array
     const newArray = generateRandomArray();
-    setArray(newArray);
+    array.current = newArray;
+
+    // Update ui
     setParameters(
       newArray.map(value => ({
         colors: ColumnBlueColors,
@@ -84,7 +97,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
           <LinearGradient
             key={ind}
             colors={value.colors}
-            style={{ alignItems: "center", width: 5, height: value.height }}
+            style={{ alignItems: "center", width: 10, height: value.height }}
           ></LinearGradient>
         ))}
       </View>
