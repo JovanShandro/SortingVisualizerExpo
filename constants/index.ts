@@ -18,9 +18,7 @@ export type AlgorithmNames =
   | "selection"
   | "bubble"
   | "quick"
-  | "heap"
-  | "counting"
-  | "radix";
+  | "heap";
 
 export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
   merge: {
@@ -81,28 +79,6 @@ export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
       worst: "O(n log n)",
       memory: "O(1)",
       stable: false
-    }
-  },
-  counting: {
-    title: "Counting Sort",
-    info: {
-      best: "O(n)",
-      average: "O(n + k)",
-      worst: "O(n + k)",
-      memory: "O(n + k)",
-      extra: "k: range of non-negative key values",
-      stable: true
-    }
-  },
-  radix: {
-    title: "Radix Sort (LSD)",
-    info: {
-      best: "O(n)",
-      average: "O(n + k)",
-      worst: "O(n * k)",
-      memory: "O(n + k)",
-      extra: "k: number of bits required to store each key",
-      stable: true
     }
   }
 };
