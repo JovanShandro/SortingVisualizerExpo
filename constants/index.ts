@@ -1,5 +1,6 @@
 export interface Algorithm {
   title: string;
+  name: AlgorithmNames;
   info: AlgorithmInfo;
 }
 
@@ -22,6 +23,7 @@ export type AlgorithmNames =
 
 export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
   merge: {
+    name: "merge",
     title: "Merge Sort",
     info: {
       best: "O(n log n)",
@@ -32,6 +34,7 @@ export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
     }
   },
   insertion: {
+    name: "insertion",
     title: "Insertion Sort",
     info: {
       best: "O(n)",
@@ -42,6 +45,7 @@ export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
     }
   },
   selection: {
+    name: "selection",
     title: "Selection Sort",
     info: {
       best: "O(n^2)",
@@ -52,6 +56,7 @@ export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
     }
   },
   bubble: {
+    name: "bubble",
     title: "Bubble Sort",
     info: {
       best: "O(n)",
@@ -62,6 +67,7 @@ export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
     }
   },
   quick: {
+    name: "quick",
     title: "Quick Sort",
     info: {
       best: "O(n log n)",
@@ -72,6 +78,7 @@ export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
     }
   },
   heap: {
+    name: "heap",
     title: "Heap Sort",
     info: {
       best: "O(n log n)",
