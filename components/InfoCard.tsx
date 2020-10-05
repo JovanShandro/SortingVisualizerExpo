@@ -1,6 +1,13 @@
-import React from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle
+} from "react-native";
 import { AlgorithmInfo } from "../constants";
 import { capitalize } from "../lib/utils";
 
@@ -12,36 +19,38 @@ interface Props {
 
 const InfoCard: React.FC<Props> = ({ info, onPress, style }) => {
   return (
-    <View style={style}>
-      <View>
-        <AntDesign
-          style={styles.icon}
-          name="arrowleft"
-          size={30}
-          onPress={onPress}
-        />
+    <TouchableOpacity activeOpacity={1} onPress={() => {}}>
+      <View style={style}>
+        <View>
+          <AntDesign
+            style={styles.icon}
+            name="arrowleft"
+            size={30}
+            onPress={onPress}
+          />
+        </View>
+        <View style={styles.infoContainer}>
+          {info &&
+            Object.keys(info)
+              .filter(key => key !== "extra")
+              .map(key => {
+                return (
+                  <View style={styles.infoEntry} key={key}>
+                    <Text style={styles.infoEntryTitle}>{capitalize(key)}</Text>
+                    <Text style={styles.infoEntryText}>
+                      {key === "stable"
+                        ? (info as any)[key]
+                          ? "Yes"
+                          : "No"
+                        : (info as any)[key]}
+                    </Text>
+                  </View>
+                );
+              })}
+        </View>
+        {info.extra && <Text style={styles.extraInfoText}>{info.extra}</Text>}
       </View>
-      <View style={styles.infoContainer}>
-        {info &&
-          Object.keys(info)
-            .filter(key => key !== "extra")
-            .map(key => {
-              return (
-                <View style={styles.infoEntry} key={key}>
-                  <Text style={styles.infoEntryTitle}>{capitalize(key)}</Text>
-                  <Text style={styles.infoEntryText}>
-                    {key === "stable"
-                      ? (info as any)[key]
-                        ? "Yes"
-                        : "No"
-                      : (info as any)[key]}
-                  </Text>
-                </View>
-              );
-            })}
-      </View>
-      {info.extra && <Text style={styles.extraInfoText}>{info.extra}</Text>}
-    </View>
+    </TouchableOpacity>
   );
 };
 
