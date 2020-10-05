@@ -1,4 +1,5 @@
 import { Entypo } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -8,7 +9,7 @@ import {
   View,
   ViewStyle
 } from "react-native";
-import { Algorithm } from "../constants";
+import { Algorithm, ColumnBlueColors, ColumnRedColors } from "../constants";
 import { generateRandomArray } from "../lib/utils";
 
 interface Props {
@@ -26,7 +27,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
   ];
   const [parameters, setParameters] = useState<any>(
     array.map(value => ({
-      color: "lightseagreen",
+      colors: ColumnBlueColors,
       height: value
     }))
   );
@@ -38,8 +39,8 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
         setTimeout(() => {
           setParameters((prev: any) => {
             const copy = prev.slice();
-            copy[value[0]].color = "red";
-            copy[value[1]].color = "red";
+            copy[value[0]].colors = ColumnRedColors;
+            copy[value[1]].colors = ColumnRedColors;
             return copy;
           });
         }, ind * 20);
@@ -47,8 +48,8 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
         setTimeout(() => {
           setParameters((prev: any) => {
             const copy = prev.slice();
-            copy[value[0]].color = "lightseagreen";
-            copy[value[1]].color = "lightseagreen";
+            copy[value[0]].colors = ColumnBlueColors;
+            copy[value[1]].colors = ColumnBlueColors;
             return copy;
           });
         }, ind * 40);
@@ -69,7 +70,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
     setArray(newArray);
     setParameters(
       newArray.map(value => ({
-        color: "lightseagreen",
+        colors: ColumnBlueColors,
         height: value
       }))
     );
@@ -80,13 +81,11 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
       <Text style={[styles.header]}>{item.title}</Text>
       <View style={styles.board}>
         {parameters.map((value: any, ind: number) => (
-          <View
+          <LinearGradient
             key={ind}
-            style={[
-              styles.column,
-              { height: value.height, backgroundColor: value.color }
-            ]}
-          ></View>
+            colors={value.colors}
+            style={{ alignItems: "center", width: 5, height: value.height }}
+          ></LinearGradient>
         ))}
       </View>
       <View style={styles.buttons}>

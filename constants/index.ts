@@ -108,3 +108,6 @@ export const algorithmsData: { [key in AlgorithmNames]: Algorithm } = {
 };
 
 export const allAlgorithms = Object.keys(algorithmsData);
+
+export const ColumnBlueColors = ["#0C4043", "#28A5AD"];
+export const ColumnRedColors = ["#F61E1E", "#BF0606"];
