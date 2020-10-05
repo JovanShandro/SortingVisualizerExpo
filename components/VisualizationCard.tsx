@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import {
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ViewStyle,
-  View,
-  TextStyle
-} from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle
+} from "react-native";
 import { Algorithm } from "../constants";
+import { generateRandomArray } from "../lib/utils";
 
 interface Props {
   item: Algorithm;
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
-  const array = [20, 35, 52, 27, 113, 64, 20, 35, 52, 27, 103, 64];
+  const [array, setArray] = useState(generateRandomArray());
   const animations = [
     [0, 2],
     [0, 2],
@@ -63,6 +64,17 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
     });
   };
 
+  const handleShuffle = () => {
+    const newArray = generateRandomArray();
+    setArray(newArray);
+    setParameters(
+      newArray.map(value => ({
+        color: "lightseagreen",
+        height: value
+      }))
+    );
+  };
+
   return (
     <TouchableOpacity style={style} activeOpacity={1} onPress={() => {}}>
       <Text style={[styles.header]}>{item.title}</Text>
@@ -72,13 +84,19 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
             key={ind}
             style={[
               styles.column,
-              { height: value.height, backgroundColor: value.color, width: 5 }
+              { height: value.height, backgroundColor: value.color }
             ]}
           ></View>
         ))}
       </View>
       <View style={styles.buttons}>
-        <Entypo style={styles.icon} name="shuffle" size={24} color="black" />
+        <Entypo
+          style={styles.icon}
+          name="shuffle"
+          size={24}
+          color="black"
+          onPress={handleShuffle}
+        />
         <Entypo
           style={styles.icon}
           name="controller-play"
@@ -118,7 +136,8 @@ const styles = StyleSheet.create<Style>({
     marginHorizontal: "10%",
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
+    overflow: "hidden"
   },
   buttons: {
     flexDirection: "row",
@@ -130,7 +149,9 @@ const styles = StyleSheet.create<Style>({
   icon: {
     color: "#00000099"
   },
-  column: {}
+  column: {
+    width: 5
+  }
 });
 
 export default VisualizationCard;
