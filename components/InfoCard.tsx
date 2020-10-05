@@ -1,5 +1,5 @@
-import { AntDesign } from "@expo/vector-icons";
 import React from "react";
+import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 import { AlgorithmInfo } from "../constants";
 import { capitalize } from "../lib/utils";
@@ -40,6 +40,7 @@ const InfoCard: React.FC<Props> = ({ info, onPress, style }) => {
               );
             })}
       </View>
+      {info.extra && <Text style={styles.extraInfoText}>{info.extra}</Text>}
     </View>
   );
 };
@@ -48,9 +49,11 @@ interface Style {
   icon: ViewStyle;
   infoContainer: ViewStyle;
   infoEntry: ViewStyle;
+  extraInfoText: ViewStyle;
   infoEntryText: TextStyle;
   infoEntryTitle: TextStyle;
 }
+
 const styles = StyleSheet.create<Style>({
   icon: {
     color: "rgba(0, 0, 0, 0.54)",
@@ -76,6 +79,12 @@ const styles = StyleSheet.create<Style>({
     textAlign: "center",
     marginTop: 5,
     fontSize: 15
+  },
+  extraInfoText: {
+    color: "gray",
+    fontSize: 13,
+    textAlign: "center",
+    marginBottom: 10
   }
 });
 
