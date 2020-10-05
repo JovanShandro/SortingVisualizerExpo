@@ -1,6 +1,6 @@
 import React from "react";
+import { FlatList } from "react-native";
 import { AlgorithmNames, algorithmsData } from "../constants";
-import { FlatList, Text } from "react-native";
 import FlipableCard from "./FlipableCard";
 
 interface Props {

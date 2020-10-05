@@ -19,15 +19,15 @@ const FlipableCard: React.FC<Props> = ({ item }) => {
   return (
     <View style={styles.container}>
       <CardFlip style={styles.cardContainer} ref={_card => (card = _card)}>
-        <InfoCard
-          style={[styles.card, styles.infoCard]}
-          onPress={() => card.flip()}
-          info={item.info}
-        />
         <VisualizationCard
           style={[styles.card, styles.visualizationCard]}
           onPress={() => card.flip()}
           item={item}
+        />
+        <InfoCard
+          style={[styles.card, styles.infoCard]}
+          onPress={() => card.flip()}
+          info={item.info}
         />
       </CardFlip>
     </View>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     alignItems: "center",
-    marginTop: hp("3%")
+    marginBottom: hp("3%")
   },
   cardContainer: {
     width: wp("90%"),
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-
     elevation: 3
   },
   infoCard: {

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { View, StyleSheet, ViewStyle, TextInput } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { useThemeContext } from "../lib/themeContext";
+import React, { useState } from "react";
+import { StyleSheet, TextInput, View, ViewStyle } from "react-native";
 import { allAlgorithms } from "../constants";
+import { useThemeContext } from "../lib/themeContext";
 
 interface Props {
   setAlgorithms(algs: string[]): void;
@@ -48,7 +48,7 @@ interface Style {
 
 const styles = StyleSheet.create<Style>({
   container: {
-    marginTop: 15,
+    marginVertical: 15,
     flexDirection: "row",
     paddingHorizontal: "5%",
     justifyContent: "space-evenly"
