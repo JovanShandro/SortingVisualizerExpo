@@ -29,29 +29,21 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
     }))
   );
 
-  const animate = (animations: number[][]) => {
+  const animate = (animations: number[][], swap: boolean) => {
     animations.forEach((value, ind) => {
-      const m = ind % 3;
-      if (m === 0 && value[0] !== value[1]) {
+      const isColorChange = ind % 3 !== 2;
+      if (isColorChange && value[0] !== value[1]) {
+        const color = ind % 3 === 0 ? ColumnRedColors : ColumnBlueColors;
         setTimeout(() => {
           setParameters((prev: any) => {
             const copy = prev.slice();
-            copy[value[0]].colors = ColumnRedColors;
-            copy[value[1]].colors = ColumnRedColors;
-            return copy;
-          });
-        }, ind * 15);
-      } else if (m == 1 && value[0] !== value[1]) {
-        setTimeout(() => {
-          setParameters((prev: any) => {
-            const copy = prev.slice();
-            copy[value[0]].colors = ColumnBlueColors;
-            copy[value[1]].colors = ColumnBlueColors;
+            copy[value[0]].colors = color;
+            copy[value[1]].colors = color;
             return copy;
           });
         }, ind * 15);
       } else {
-        if (value[0] !== value[1]) {
+        if (swap) {
           setTimeout(() => {
             setParameters((prev: any) => {
               const copy = prev.slice();
@@ -61,35 +53,17 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
               return copy;
             });
           }, ind * 15);
+        } else if (value[0] !== value[1]) {
+          setTimeout(() => {
+            setParameters((prev: any) => {
+              const copy = prev.slice();
+              copy[value[0]].height = value[1];
+              return copy;
+            });
+          }, ind * 15);
         }
       }
     });
-  };
-
-  const animateMerge = (animations: number[][]) => {
-    for (let i = 0; i < animations.length; i++) {
-      const value = animations[i];
-      const isColorChange = i % 3 !== 2;
-      if (isColorChange) {
-        setTimeout(() => {
-          const color = i % 3 === 0 ? ColumnRedColors : ColumnBlueColors;
-          setParameters((prev: any) => {
-            const copy = prev.slice();
-            copy[value[0]].colors = color;
-            copy[value[1]].colors = color;
-            return copy;
-          });
-        }, i * 15);
-      } else {
-        setTimeout(() => {
-          setParameters((prev: any) => {
-            const copy = prev.slice();
-            copy[value[0]].height = value[1];
-            return copy;
-          });
-        }, i * 15);
-      }
-    }
   };
 
   const handlePlay = () => {
@@ -100,11 +74,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
     sort(array.current, animations);
 
     // Animate sorting
-    if (item.name === "merge") {
-      animateMerge(animations);
-    } else {
-      animate(animations);
-    }
+    animate(animations, item.name !== "merge");
   };
 
   const handleShuffle = () => {
