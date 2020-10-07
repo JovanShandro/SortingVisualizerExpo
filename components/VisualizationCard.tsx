@@ -66,6 +66,32 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
     });
   };
 
+  const animateMerge = (animations: number[][]) => {
+    for (let i = 0; i < animations.length; i++) {
+      const value = animations[i];
+      const isColorChange = i % 3 !== 2;
+      if (isColorChange) {
+        setTimeout(() => {
+          const color = i % 3 === 0 ? ColumnRedColors : ColumnBlueColors;
+          setParameters((prev: any) => {
+            const copy = prev.slice();
+            copy[value[0]].colors = color;
+            copy[value[1]].colors = color;
+            return copy;
+          });
+        }, i * 15);
+      } else {
+        setTimeout(() => {
+          setParameters((prev: any) => {
+            const copy = prev.slice();
+            copy[value[0]].height = value[1];
+            return copy;
+          });
+        }, i * 15);
+      }
+    }
+  };
+
   const handlePlay = () => {
     const animations: number[][] = [];
 
@@ -74,7 +100,11 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
     sort(array.current, animations);
 
     // Animate sorting
-    animate(animations);
+    if (item.name === "merge") {
+      animateMerge(animations);
+    } else {
+      animate(animations);
+    }
   };
 
   const handleShuffle = () => {

@@ -3,6 +3,7 @@ import bubble_sort from "./bubble";
 import selection_sort from "./selection";
 import heap_sort from "./heap";
 import quick_sort from "./quick";
+import merge_sort from "./merge";
 import { AlgorithmNames } from "../../constants";
 
 const algorithms: { [key in AlgorithmNames]: Function } = {
@@ -11,7 +12,7 @@ const algorithms: { [key in AlgorithmNames]: Function } = {
   selection: selection_sort,
   heap: heap_sort,
   quick: quick_sort,
-  merge: () => {}
+  merge: merge_sort
 };
 
 export default algorithms;
