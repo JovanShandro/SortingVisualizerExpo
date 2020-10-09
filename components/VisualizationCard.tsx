@@ -19,7 +19,10 @@ interface Props {
   style: ViewStyle[];
 }
 
+const AnimationSpeed = 40;
+
 const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
+  const [isSearching, setIsSearching] = useState(false);
   const array = useRef(generateRandomArray());
 
   const [parameters, setParameters] = useState<any>(
@@ -29,55 +32,70 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
     }))
   );
 
-  const animate = (animations: number[][], swap: boolean) => {
-    animations.forEach((value, ind) => {
-      const isColorChange = ind % 3 !== 2;
-      if (isColorChange && value[0] !== value[1]) {
-        const color = ind % 3 === 0 ? ColumnRedColors : ColumnBlueColors;
-        setTimeout(() => {
-          setParameters((prev: any) => {
-            const copy = prev.slice();
-            copy[value[0]].colors = color;
-            copy[value[1]].colors = color;
-            return copy;
-          });
-        }, ind * 15);
-      } else {
-        if (swap) {
-          setTimeout(() => {
-            setParameters((prev: any) => {
-              const copy = prev.slice();
-              const tmp = copy[value[0]].height;
-              copy[value[0]].height = copy[value[1]].height;
-              copy[value[1]].height = tmp;
-              return copy;
-            });
-          }, ind * 15);
-        } else if (value[0] !== value[1]) {
-          setTimeout(() => {
-            setParameters((prev: any) => {
-              const copy = prev.slice();
-              copy[value[0]].height = value[1];
-              return copy;
-            });
-          }, ind * 15);
-        }
-      }
-    });
+  const promisify = (func: Function, ms: number) => {
+    return new Promise(resolve =>
+      setTimeout(() => {
+        func();
+        resolve();
+      }, ms)
+    );
   };
 
-  const handlePlay = () => {
+  const animate = async (animations: number[][], swap: boolean) => {
+    return await Promise.all(
+      animations.map(async (value, ind) => {
+        const isColorChange = ind % 3 !== 2;
+        if (isColorChange && value[0] !== value[1]) {
+          const color = ind % 3 === 0 ? ColumnRedColors : ColumnBlueColors;
+          return await promisify(() => {
+            setParameters((prev: any) => {
+              const copy = prev.slice();
+              copy[value[0]].colors = color;
+              copy[value[1]].colors = color;
+              return copy;
+            });
+          }, ind * AnimationSpeed);
+        } else {
+          if (swap) {
+            return await promisify(() => {
+              setParameters((prev: any) => {
+                const copy = prev.slice();
+                const tmp = copy[value[0]].height;
+                copy[value[0]].height = copy[value[1]].height;
+                copy[value[1]].height = tmp;
+                return copy;
+              });
+            }, ind * AnimationSpeed);
+          } else if (value[0] !== value[1]) {
+            return await promisify(() => {
+              setParameters((prev: any) => {
+                const copy = prev.slice();
+                copy[value[0]].height = value[1];
+                return copy;
+              });
+            }, ind * AnimationSpeed);
+          }
+        }
+      })
+    );
+  };
+
+  const handlePlay = async () => {
+    if (isSearching) return;
     const animations: number[][] = [];
 
     // Sort array
+    setIsSearching(true);
     const sort = sorting_algorithms[item.name];
     sort(array.current, animations);
 
     // Animate sorting
-    animate(animations, item.name !== "merge");
+    await animate(animations, item.name !== "merge");
+    setIsSearching(false);
   };
 
   const handleShuffle = () => {
+    if (isSearching) return;
     // Create new array
     const newArray = generateRandomArray();
     array.current = newArray;
@@ -91,6 +109,8 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
     );
   };
 
+  const iconColor = isSearching ? "#00000044" : "#00000099";
+
   return (
     <TouchableOpacity style={style} activeOpacity={1} onPress={() => {}}>
       <Text style={[styles.header]}>{item.title}</Text>
@@ -99,7 +119,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
           <LinearGradient
             key={ind}
             colors={value.colors}
-            style={{ alignItems: "center", width: 10, height: value.height }}
+            style={{ alignItems: "center", width: 20, height: value.height }}
           ></LinearGradient>
         ))}
       </View>
@@ -108,22 +128,22 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
           style={styles.icon}
           name="shuffle"
           size={24}
-          color="black"
+          color={iconColor}
           onPress={handleShuffle}
         />
         <Entypo
           style={styles.icon}
           name="controller-play"
           size={32}
-          color="black"
+          color={iconColor}
           onPress={handlePlay}
         />
         <Entypo
           style={styles.icon}
           name="info-with-circle"
           size={24}
-          color="black"
-          onPress={onPress}
+          color={iconColor}
+          onPress={isSearching ? () => {} : onPress}
         />
       </View>
     </TouchableOpacity>
@@ -161,7 +181,7 @@ const styles = StyleSheet.create<Style>({
     paddingHorizontal: "15%"
   },
   icon: {
-    color: "#00000099"
+    //color: "#00000099"
   },
   column: {
     width: 5

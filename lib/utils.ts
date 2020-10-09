@@ -4,7 +4,7 @@ export const capitalize = (str: string) => {
 
 export const generateRandomArray = () => {
   const array = [];
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 12; i++) {
     array.push(randomNumber(7, 120));
   }
   return array;
