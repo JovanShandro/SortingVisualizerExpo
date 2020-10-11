@@ -19,7 +19,7 @@ interface Props {
   style: ViewStyle[];
 }
 
-const AnimationSpeed = 40;
+const AnimationSpeed = 70;
 
 const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
   const [isSearching, setIsSearching] = useState(false);
@@ -119,7 +119,7 @@ const VisualizationCard: React.FC<Props> = ({ item, onPress, style }) => {
           <LinearGradient
             key={ind}
             colors={value.colors}
-            style={{ alignItems: "center", width: 20, height: value.height }}
+            style={{ alignItems: "center", width: 15, height: value.height }}
           ></LinearGradient>
         ))}
       </View>
