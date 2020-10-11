@@ -42,11 +42,11 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: wp("90%"),
-    height: hp("30%")
+    height: 230
   },
   card: {
     width: wp("90%"),
-    height: hp("30%"),
+    height: 230,
     borderRadius: wp("4%"),
     shadowColor: "#000",
     shadowOffset: {
